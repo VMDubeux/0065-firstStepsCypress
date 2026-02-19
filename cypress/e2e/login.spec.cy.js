@@ -1,38 +1,55 @@
 describe('Orange HRM Tests', () => {
+
+    const keyName = "userName";
+    const keyPassword = "userPassword";
+    const keyButton = "buttonLogin";
+    const keyTitle = "titleText";
+    const keyErrorTopWarning = "errorWrongCredentials"
+    const keyErrorNoCredential = "errorNoCredential";
+
+    const selectorsList = {
+        [keyName]: '[name="username"]',
+        [keyPassword]: '[name="password"]',
+        [keyButton]: '[type="submit"]',
+        [keyTitle]: '.oxd-text--h6',
+        [keyErrorTopWarning]: '.oxd-alert-content-text',
+        [keyErrorNoCredential]: '.oxd-text--span'
+    }
+
     it('Login: Passed', () => {
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        cy.get('[name="username"]').type('Admin');
-        cy.get('[name="password"]').type('admin123');
-        cy.get('[type="submit"]').click();
+        cy.get(selectorsList[keyName]).type('Admin');
+        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyButton]).click();
         cy.location('pathname').should('equal', '/web/index.php/dashboard/index');
-        cy.get('.oxd-text--h6').contains('Dashboard');
+        cy.get(selectorsList[keyTitle]).contains('Dashboard');
     })
 
     it('Login: Failed - Not Registred Username or Password', () => {
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        cy.get('[name="username"]').type('Admi');
-        cy.get('[name="password"]').type('admin123');
-        cy.get('[type="submit"]').click();
-        cy.get('.oxd-alert-content-text');
+        cy.get(selectorsList[keyName]).type('Admi');
+        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyButton]).click();
+        cy.get(selectorsList[keyErrorTopWarning]);
     })
 
     it('Login: Failed - Username not entered', () => {
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        cy.get('[name="password"]').type('admin123');
-        cy.get('[type="submit"]').click();
-        cy.get('.oxd-text--span');
+        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyButton]).click();
+        cy.get(selectorsList[keyErrorNoCredential]);
     })
 
     it('Login: Failed - Password not entered', () => {
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        cy.get('[name="username"]').type('Admin');
-        cy.get('[type="submit"]').click();
-        cy.get('.oxd-text--span');
+        cy.get(selectorsList[keyName]).type('Admin');
+        cy.get(selectorsList[keyButton]).click();
+        cy.get(selectorsList[keyErrorNoCredential]);
     })
 
     it('Login: Failed - No credentials', () => {
         cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-        cy.get('[type="submit"]').click();
-        cy.get('.oxd-text--span');
+        cy.get(selectorsList[keyButton]).click();
+        cy.get(selectorsList[keyErrorNoCredential]);
     })
 })
