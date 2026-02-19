@@ -4,7 +4,7 @@ describe('Orange HRM Tests', () => {
     const keyPassword = "userPassword";
     const keyButton = "buttonLogin";
     const keyTitle = "titleText";
-    const keyErrorTopWarning = "errorWrongCredentials"
+    const keyErrorWrongCredential = "errorWrongCredentials"
     const keyErrorNoCredential = "errorNoCredential";
 
     const selectorsList = {
@@ -12,7 +12,7 @@ describe('Orange HRM Tests', () => {
         [keyPassword]: '[name="password"]',
         [keyButton]: '[type="submit"]',
         [keyTitle]: '.oxd-text--h6',
-        [keyErrorTopWarning]: '.oxd-alert-content-text',
+        [keyErrorWrongCredential]: '.oxd-alert-content-text',
         [keyErrorNoCredential]: '.oxd-text--span'
     }
 
@@ -30,7 +30,7 @@ describe('Orange HRM Tests', () => {
         cy.get(selectorsList[keyName]).type('Admi');
         cy.get(selectorsList[keyPassword]).type('admin123');
         cy.get(selectorsList[keyButton]).click();
-        cy.get(selectorsList[keyErrorTopWarning]);
+        cy.get(selectorsList[keyErrorWrongCredential]);
     })
 
     it('Login: Failed - Username not entered', () => {
