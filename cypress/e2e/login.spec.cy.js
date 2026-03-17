@@ -12,7 +12,7 @@ describe('Orange HRM Tests', () => {
     const keyErrorNoCredential = "errorNoCredential";
 
     const selectorsList = {
-        [keyURL]: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login',
+        [keyURL]: '/auth/login',
         [keyName]: '[name="username"]',
         [keyPassword]: '[name="password"]',
         [keyButton]: '[type="submit"]',
