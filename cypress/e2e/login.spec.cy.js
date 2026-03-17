@@ -1,3 +1,5 @@
+import userData from "../fixtures/user-data.json"
+
 describe('Orange HRM Tests', () => {
 
     const keyURL = "siteURL"
@@ -22,8 +24,8 @@ describe('Orange HRM Tests', () => {
 
     it('Login: Passed', () => {
         cy.visit(selectorsList[keyURL]);
-        cy.get(selectorsList[keyName]).type('Admin');
-        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyName]).type(userData.userDataSuccess.username);
+        cy.get(selectorsList[keyPassword]).type(userData.userDataSuccess.password);
         cy.get(selectorsList[keyButton]).click();
         cy.location('pathname').should('equal', '/web/index.php/dashboard/index');
         //cy.get(selectorsList[keyTitle]).contains('Dashboard');
@@ -32,22 +34,22 @@ describe('Orange HRM Tests', () => {
 
     it('Login: Failed - Not Registred Username or Password', () => {
         cy.visit(selectorsList[keyURL]);
-        cy.get(selectorsList[keyName]).type('Admi');
-        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyName]).type(userData.userDataFailed.username);
+        cy.get(selectorsList[keyPassword]).type(userData.userDataFailed.password);
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorWrongCredential]);
     })
 
     it('Login: Failed - Username not entered', () => {
         cy.visit(selectorsList[keyURL]);
-        cy.get(selectorsList[keyPassword]).type('admin123');
+        cy.get(selectorsList[keyPassword]).type(userData.userDataFailed.password);
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorNoCredential]);
     })
 
     it('Login: Failed - Password not entered', () => {
         cy.visit(selectorsList[keyURL]);
-        cy.get(selectorsList[keyName]).type('Admin');
+        cy.get(selectorsList[keyName]).type(userData.userDataSuccess.username);
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorNoCredential]);
     })
