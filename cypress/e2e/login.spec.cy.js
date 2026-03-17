@@ -5,6 +5,7 @@ describe('Orange HRM Tests', () => {
     const keyPassword = "userPassword";
     const keyButton = "buttonLogin";
     const keyTitle = "titleText";
+    const keyDashCheck = "dashboardPageCheck";
     const keyErrorWrongCredential = "errorWrongCredentials"
     const keyErrorNoCredential = "errorNoCredential";
 
@@ -14,6 +15,7 @@ describe('Orange HRM Tests', () => {
         [keyPassword]: '[name="password"]',
         [keyButton]: '[type="submit"]',
         [keyTitle]: '.oxd-text--h6',
+        [keyDashCheck]: '.orangehrm-dashboard-grid',
         [keyErrorWrongCredential]: '.oxd-alert-content-text',
         [keyErrorNoCredential]: '.oxd-text--span'
     }
@@ -24,7 +26,8 @@ describe('Orange HRM Tests', () => {
         cy.get(selectorsList[keyPassword]).type('admin123');
         cy.get(selectorsList[keyButton]).click();
         cy.location('pathname').should('equal', '/web/index.php/dashboard/index');
-        cy.get(selectorsList[keyTitle]).contains('Dashboard');
+        //cy.get(selectorsList[keyTitle]).contains('Dashboard');
+        cy.get(selectorsList[keyDashCheck]);
     })
 
     it('Login: Failed - Not Registred Username or Password', () => {
