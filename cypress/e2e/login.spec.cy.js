@@ -1,5 +1,6 @@
 describe('Orange HRM Tests', () => {
 
+    const keyURL = "siteURL"
     const keyName = "userName";
     const keyPassword = "userPassword";
     const keyButton = "buttonLogin";
@@ -8,6 +9,7 @@ describe('Orange HRM Tests', () => {
     const keyErrorNoCredential = "errorNoCredential";
 
     const selectorsList = {
+        [keyURL]: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login',
         [keyName]: '[name="username"]',
         [keyPassword]: '[name="password"]',
         [keyButton]: '[type="submit"]',
@@ -17,7 +19,7 @@ describe('Orange HRM Tests', () => {
     }
 
     it('Login: Passed', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        cy.visit(selectorsList[keyURL]);
         cy.get(selectorsList[keyName]).type('Admin');
         cy.get(selectorsList[keyPassword]).type('admin123');
         cy.get(selectorsList[keyButton]).click();
@@ -26,7 +28,7 @@ describe('Orange HRM Tests', () => {
     })
 
     it('Login: Failed - Not Registred Username or Password', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        cy.visit(selectorsList[keyURL]);
         cy.get(selectorsList[keyName]).type('Admi');
         cy.get(selectorsList[keyPassword]).type('admin123');
         cy.get(selectorsList[keyButton]).click();
@@ -34,21 +36,21 @@ describe('Orange HRM Tests', () => {
     })
 
     it('Login: Failed - Username not entered', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        cy.visit(selectorsList[keyURL]);
         cy.get(selectorsList[keyPassword]).type('admin123');
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorNoCredential]);
     })
 
     it('Login: Failed - Password not entered', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        cy.visit(selectorsList[keyURL]);
         cy.get(selectorsList[keyName]).type('Admin');
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorNoCredential]);
     })
 
     it('Login: Failed - No credentials', () => {
-        cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        cy.visit(selectorsList[keyURL]);
         cy.get(selectorsList[keyButton]).click();
         cy.get(selectorsList[keyErrorNoCredential]);
     })
