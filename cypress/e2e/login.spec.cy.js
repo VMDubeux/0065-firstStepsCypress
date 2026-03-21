@@ -1,100 +1,59 @@
 import userData from "../fixtures/user-data.json"
+import LoginPage from "../pages/loginPage.js"
+import InfoPage from "../pages/infoPage.js"
+
+const loginPage = new LoginPage(),
+    listLoginPage = loginPage.selectorList(),
+    infoPage = new InfoPage(),
+    listInfoPage = infoPage.selectorList();
 
 describe('Orange HRM Tests', () => {
 
-    const keyLogURL = "siteURL";
-    const keyDashURL = "DashURL";
-    const keyInfoURL = "MyInfoURL";
-    const keyName = "userName";
-    const keyPassword = "userPassword";
-    const keyButtonLogin = "buttonLogin";
-    const keyByttonInfo = "buttonMyInfoPage";
-    const keyTitle = "titleText";
-    const keyDashCheck = "dashboardPageCheck";
-    const keyInfoCheck = "personalInfoPageCheck";
-    const keyErrorWrongCredential = "errorWrongCredentials";
-    const keyErrorNoCredential = "errorNoCredential";
-    const keyFirstNameInfoPage = "firstNamePageInfo";
-    const keyMiddleNameInfoPage = "middleNamePageInfo";
-    const keyLastNameInfoPage = "lastNamePageInfo";
-    const genericInfoField = "genericMyInfoPageField";
-
-    const selectorsList = {
-        [keyLogURL]: '/auth/login',
-        [keyDashURL]: '/web/index.php/dashboard/index',
-        [keyInfoURL]: '/pim/viewPersonalDetails/empNumber/7',
-        [keyName]: '[name="username"]',
-        [keyPassword]: '[name="password"]',
-        [keyButtonLogin]: '[type="submit"]',
-        [keyByttonInfo]: '[href="/web/index.php/pim/viewMyDetails"]',
-        [keyTitle]: '.oxd-text--h6',
-        [keyDashCheck]: '.orangehrm-dashboard-grid',
-        [keyInfoCheck]: '.orangehrm-background-container',
-        [keyErrorWrongCredential]: '.oxd-alert-content-text',
-        [keyErrorNoCredential]: '.oxd-text--span',
-        [keyFirstNameInfoPage]: '[name="firstName"]',
-        [keyMiddleNameInfoPage]: '[name="middleName"]',
-        [keyLastNameInfoPage]: '[name="lastName"]',
-        [genericInfoField]: '.oxd-input--active',
-    }
-
     it('Login: Passed', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyName]).clear().type(userData.userDataSuccess.username);
-        cy.get(selectorsList[keyPassword]).clear().type(userData.userDataSuccess.password);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.location('pathname').should('equal', selectorsList[keyDashURL]);
-        //cy.get(selectorsList[keyTitle]).contains('Dashboard');
-        cy.get(selectorsList[keyDashCheck]);
+        loginPage.accessLoginPage();
+        loginPage.loginAction(userData.userDataSuccess.username, userData.userDataSuccess.password);
+        cy.location('pathname').should('equal', listLoginPage[loginPage.keyDashURL]);
+        cy.get(listLoginPage[loginPage.keyDashCheck]).should('be.visible'); //cy.get(selectorsList[keyTitle]).contains('Dashboard');
     })
 
     it('Login: Failed - Not Registred Username or Password', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyName]).clear().type(userData.userDataFailed.username);
-        cy.get(selectorsList[keyPassword]).clear().type(userData.userDataFailed.password);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.get(selectorsList[keyErrorWrongCredential]);
+        loginPage.accessLoginPage();
+        loginPage.loginAction(userData.userDataFailed.username, userData.userDataFailed.password);
+        cy.get(listLoginPage[loginPage.keyErrorWrongCredential]);
     })
-
+    
     it('Login: Failed - Username not entered', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyPassword]).clear().type(userData.userDataFailed.password);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.get(selectorsList[keyErrorNoCredential]);
+        loginPage.accessLoginPage();
+        loginPage.loginAction(null, userData.userDataSuccess.password);
+        cy.get(listLoginPage[loginPage.keyErrorNoCredential]);
     })
 
     it('Login: Failed - Password not entered', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyName]).clear().type(userData.userDataSuccess.username);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.get(selectorsList[keyErrorNoCredential]);
+        loginPage.accessLoginPage();
+        loginPage.loginAction(userData.userDataSuccess.username, null);
+        cy.get(listLoginPage[loginPage.keyErrorNoCredential]);
     })
 
     it('Login: Failed - No credentials', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.get(selectorsList[keyErrorNoCredential]).eq(0);
-        cy.get(selectorsList[keyErrorNoCredential]).eq(1);
+        loginPage.accessLoginPage();
+        loginPage.loginAction(null, null);
+        cy.get(listLoginPage[loginPage.keyErrorNoCredential]).eq(0);
+        cy.get(listLoginPage[loginPage.keyErrorNoCredential]).eq(1);
     })
 
-    it.only('Navigation: My Info', () => {
-        cy.visit(selectorsList[keyLogURL]);
-        cy.get(selectorsList[keyName]).clear().type(userData.userDataSuccess.username);
-        cy.get(selectorsList[keyPassword]).clear().type(userData.userDataSuccess.password);
-        cy.get(selectorsList[keyButtonLogin]).click();
-        cy.location('pathname').should('equal', selectorsList[keyDashURL]);
-        //cy.get(selectorsList[keyTitle]).contains('Dashboard');
-        cy.get(selectorsList[keyDashCheck]);
-        //cy.visit(selectorsList[keyInfoURL]);
-        //cy.location('pathname').should('equal', selectorsList[keyInfoURL]);
-        cy.get(selectorsList[keyByttonInfo]).click();
-        cy.get(selectorsList[keyInfoCheck]);
-        cy.get(selectorsList[keyFirstNameInfoPage]).clear().type("Jonathan");
-        cy.get(selectorsList[keyMiddleNameInfoPage]).clear().type("Sagar");
-        cy.get(selectorsList[keyLastNameInfoPage]).clear().type("Silva");
-        cy.get(selectorsList[genericInfoField]).eq(3).clear().type("12340000");
-        cy.get(selectorsList[genericInfoField]).eq(4).clear().type("1234567");
-        cy.get(selectorsList[genericInfoField]).eq(7).clear().type("2024-10-10");
+    it('Navigation: My Info', () => {
+        loginPage.accessLoginPage();
+        loginPage.loginAction(userData.userDataSuccess.username, userData.userDataSuccess.password);
+        cy.location('pathname').should('equal', listLoginPage[loginPage.keyDashURL]);
+        cy.get(listLoginPage[loginPage.keyDashCheck]);  //cy.get(selectorsList[keyTitle]).contains('Dashboard')
+        cy.get(listInfoPage[infoPage.keyByttonInfo]).click();
+        cy.get(listInfoPage[infoPage.keyInfoCheck]);
+        cy.get(listInfoPage[infoPage.keyFirstNameInfoPage]).clear().type("Jonathan");
+        cy.get(listInfoPage[infoPage.keyMiddleNameInfoPage]).clear().type("Sagar");
+        cy.get(listInfoPage[infoPage.keyLastNameInfoPage]).clear().type("Silva");
+        cy.get(listInfoPage[infoPage.genericInfoField]).eq(3).clear().type("12340000");
+        cy.get(listInfoPage[infoPage.genericInfoField]).eq(4).clear().type("1234567");
+        cy.get(listInfoPage[infoPage.genericInfoField]).eq(7).clear().type("2024-10-10");
         cy.get(".--close").click();
         cy.get('.oxd-select-text').eq(0).click();
         cy.get('.oxd-select-dropdown > :nth-child(11)').click();
