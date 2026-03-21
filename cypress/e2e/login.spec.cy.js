@@ -96,6 +96,10 @@ describe('Orange HRM Tests', () => {
         cy.get(selectorsList[genericInfoField]).eq(4).clear().type("1234567");
         cy.get(selectorsList[genericInfoField]).eq(7).clear().type("2024-10-10");
         cy.get(".--close").click();
+        cy.get('.oxd-select-text').eq(0).click();
+        cy.get('.oxd-select-dropdown > :nth-child(11)').click();
+        cy.get('.oxd-select-text').eq(1).click();
+        cy.get('.oxd-select-dropdown > :nth-child(3)').click();
         cy.get("[type='submit']").eq(0).click();
         cy.get('body').should('contain', "Successfully Updated")
     })
