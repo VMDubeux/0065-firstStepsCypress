@@ -7,7 +7,7 @@ const loginPage = new LoginPage(),
     infoPage = new InfoPage(),
     listInfoPage = infoPage.selectorList();
 
-describe('Orange HRM Tests', () => {
+describe('Login Orange HRM Tests', () => {
 
     it('Login: Passed', () => {
         loginPage.accessLoginPage();
@@ -39,17 +39,5 @@ describe('Orange HRM Tests', () => {
         loginPage.loginAction(null, null);
         cy.get(listLoginPage[loginPage.keyErrorNoCredential]).eq(0);
         cy.get(listLoginPage[loginPage.keyErrorNoCredential]).eq(1);
-    })
-
-    it('Navigation: My Info', () => {
-        loginPage.accessLoginPage();
-        loginPage.loginAction(userData.userDataSuccess.username, userData.userDataSuccess.password);
-        cy.location('pathname').should('equal', listLoginPage[loginPage.keyDashURL]);
-        cy.get(listLoginPage[loginPage.keyDashCheck]).should('be.visible'); //cy.get(selectorsList[keyTitle]).contains('Dashboard');
-        cy.get(listInfoPage[infoPage.keyByttonInfo]).click();
-        cy.get(listInfoPage[infoPage.keyInfoCheck]);
-        infoPage.changeUserName("Jonathan", "Sagar", "Silva");
-        infoPage.changeUsersJobDetails("12340000", "1234567", "2024-10-10");
-        infoPage.SaveModifiedUser();
     })
 })
