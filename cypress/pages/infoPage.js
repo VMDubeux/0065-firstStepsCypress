@@ -31,10 +31,10 @@ class InfoPage {
         cy.get(this.listInfoPage[this.keyLastNameInfoPage]).clear().type(lastName);
     }
 
-    changeUsersJobDetails(employeeId, otherId, licenseExpireDate) {
+    changeUsersJobDetails(employeeId, otherId, employeeBirthday) {
         cy.get(this.listInfoPage[this.genericInfoField]).eq(3).clear().type(employeeId);
         cy.get(this.listInfoPage[this.genericInfoField]).eq(4).clear().type(otherId);
-        cy.get(this.listInfoPage[this.genericInfoField]).eq(7).clear().type(licenseExpireDate);
+        cy.get(this.listInfoPage[this.genericInfoField]).eq(7).clear().type(employeeBirthday);
         cy.get(".--close").click();
         cy.get('.oxd-select-text').eq(0).click();
         cy.get('.oxd-select-dropdown > :nth-child(11)').click();

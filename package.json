@@ -12,5 +12,9 @@
   "type": "commonjs",
   "devDependencies": {
     "cypress": "^15.10.0"
+  },
+  "dependencies": {
+    "chance": "^1.1.13",
+    "moment": "^2.30.1"
   }
 }

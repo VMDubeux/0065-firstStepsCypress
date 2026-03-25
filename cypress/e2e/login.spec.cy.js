@@ -5,7 +5,9 @@ import InfoPage from "../pages/infoPage.js"
 const loginPage = new LoginPage(),
     listLoginPage = loginPage.selectorList(),
     infoPage = new InfoPage(),
-    listInfoPage = infoPage.selectorList();
+    listInfoPage = infoPage.selectorList(),
+    Chance = require('chance'),
+    chance = new Change();
 
 describe('Login Orange HRM Tests', () => {
 
