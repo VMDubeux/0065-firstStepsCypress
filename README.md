@@ -1,6 +1,6 @@
 # 🌲 My Cypress Automation
 
-This project utilizes **Cypress** to automate the testing of a **Login** feature and a **User Update** feature. Cypress is a JavaScript-based end-to-end (E2E) testing framework that allows developers to write tests and execute them in a real browser.
+This project utilizes **Cypress** to automate the testing of a **Login** feature and a **User Personal Info** feature. Cypress is a JavaScript-based end-to-end (E2E) testing framework that allows developers to write tests and execute them in a real browser.
 
 ---
 
